@@ -56,11 +56,11 @@
 
 - **Number of Dijkstra runs:** k+1
   Spawn + every relic = k+1
-- **Cost per run:** O(n^2 + m)
-  Scanning for the next node is O(n^2) plus checking and updating distances across all m edges.
-- **Total complexity:** O((k+1) (n^2 + m))
-  Multiply number of runs (k+1) by cost per run (n^2 + m).
-- **Justification (one line):** Run the Djikstra from the spawn and each of the k relics, then multiply runs by per run cost.
+- **Cost per run:** O(m log n)
+  Using a binary heap takes O(log n) time, and we do this for every edge (m) so we multiply them to get the cost per run.
+- **Total complexity:** O((k+1) m log n)
+  Multiply the number of runs (k+1) by the cost per run (m log n).
+- **Justification (one line):** Run Dijkstra from the spawn and each of the k relics using a heap, then multiply runs by the per run cost.
 
 ---
 
@@ -186,4 +186,4 @@ If you know all the shortest distances, you can plan a route that uses the real 
 
 > Bullet list. If none beyond lecture notes, write that.
 
-- _Your references here._
+- heapq documentation, (https://docs.python.org/3/library/heapq.html), used for the dijkstra implementation, it worked and is a python website which is how I verified the results. 

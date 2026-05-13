@@ -93,23 +93,18 @@ def run_dijkstra(graph, source):
         dist[source] = float('inf')
 
     dist[source] = 0
-    unvisited = set(dist.keys())
+    heap = [(0, source)]
 
-    while unvisited:
-        current = None
-        current_dist = float('inf')
-
-        for node in unvisited:
-            if dist[node] < current_dist:
-                current = node
-                current_dist = dist[node]
-
-        unvisited.remove(current)
+    while heap:
+        current_dist, current = heapq.heappop(heap)
+        if current_dist != dist[current]:
+            continue
 
         for v, w in graph.get(current, []):
-            nd = w 
-            if nd < dist.get(v, float('inf')):
-                dist[v] = nd
+            next_dist = current_dist + w
+            if next_dist < dist.get(v, float('inf')):
+                dist[v] = next_dist
+                heapq.heappush(heap, (next_dist, v))
 
     return dist
 
@@ -269,6 +264,19 @@ def solve(graph, spawn, relics, exit_node):
     return (float('inf'), [])
 
 
+def test_dijkstra_algorithm():
+    graph = {
+        'S': [('A', 5), ('B', 1)],
+        'B': [('A', 1), ('T', 100)],
+        'A': [('T', 1)],
+        'T': [],
+        'U': []
+    }
+    dist = run_dijkstra(graph, 'S')
+
+    print(dist)
+
+
 # =============================================================================
 # PROVIDED TESTS (do not modify)
 # Graders will run additional tests beyond these.
@@ -334,4 +342,5 @@ def _run_tests():
 
 
 if __name__ == "__main__":
-    _run_tests()
+    #_run_tests()
+    test_dijkstra_algorithm()

@@ -16,12 +16,9 @@ I will start with the written parts, doing part 1 through 4 before I start on th
 
 ---
 
-## Entry 2 – [Date]: [Short description]
+## Entry 2 – [05/13]: [Fixing Dijkstra]
 
-> Required. At least one entry must describe a bug, wrong assumption, or design change
-> you encountered. Describe what went wrong and how you resolved it.
-
-_Your entry here._
+I realized my initial Dijkstra implementation was wrong. I was scanning linearly and my time complexity was O(n^2), but if I used a heap I could lower the time complexity and it is probably the intended solution, as this is how we did it in class. I am going to try to implement using a heap for Dijkstra's now. 
 
 ---
 
