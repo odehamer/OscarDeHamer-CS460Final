@@ -151,8 +151,8 @@ If you know all the shortest distances, you can plan a route that uses the real 
 
 > Two bullets.
 
-- **Worst-case number of orders considered:** _Your answer (in terms of k)._
-- **Why:** _One-line justification._
+- **Worst-case number of orders considered:** k!
+- **Why:** The search may need to explore every order of the k relics in the worst case.
 
 ---
 
@@ -178,7 +178,8 @@ If you know all the shortest distances, you can plan a route that uses the real 
 
 > One to two bullets. Explain why pruning is safe.
 
-- _Your answer here._
+- If a route is already worse than the best complete route, it can't become better.
+- Since all edge costs are nonnegative, pruning that branch cannot remove the optimal solution.
 
 ---
 
