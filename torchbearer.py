@@ -17,8 +17,6 @@ INSTRUCTIONS
 Submit this file as: torchbearer.py
 """
 
-import heapq
-
 
 # =============================================================================
 # PART 1

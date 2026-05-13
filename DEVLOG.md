@@ -12,10 +12,7 @@
 
 ## Entry 1 – [05/12]: Initial Plan
 
-> Required. Write this before writing any code. Describe your plan: what you will
-> implement first, what parts you expect to be difficult, and how you plan to test.
-
-I will start with the written parts for Parts 1 through 4 so the design is clear before I code the search logic. After that, I will implement the Dijkstra precomputation and route search in `torchbearer.py`, then run the provided tests and add a few small custom graphs to check edge cases like unreachable exits and multiple valid relic orders. The hardest part will probably be the pruning logic in `_explore()` because it has to stay correct while still cutting enough branches to matter.
+I will start with the written parts, doing part 1 through 4 before I start on the run_dijkstra function. I think that the dijkstra implementation seems pretty difficult, but over the entire project, the _explore function looks really difficult because the pruning especially. I will be sure to test any edge cases I think of while I am writing my code.
 
 ---
 
