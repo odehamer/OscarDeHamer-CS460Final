@@ -34,7 +34,11 @@ def explain_problem():
 
     TODO
     """
-    return "TODO"
+    return (
+        "- A single shortest-path run from S finds only the shortest distance from the entrance to one location, but does not give the optimal order to visit multiple relics. You need to know distances from all of the sources to all the relics to determine the optimal solution.\n"
+        "- The optimal order to visit the relics, because different orderings give different total costs.\n"
+        "- The total torch fuel cost depends on the order in which relics are visited, so the optimal order must be discovered through searching all the orders instead of just a simple greedy algorithm."
+    )
 
 
 # =============================================================================
@@ -56,7 +60,13 @@ def select_sources(spawn, relics, exit_node):
 
     TODO
     """
-    pass
+    seen = set()
+    sources = []
+    for s in [spawn] + list(relics):
+        if s not in seen:
+            seen.add(s)
+            sources.append(s)
+    return sources
 
 
 def run_dijkstra(graph, source):
@@ -75,7 +85,35 @@ def run_dijkstra(graph, source):
 
     TODO
     """
-    pass
+    nodes = set(graph.keys())
+    for u in graph:
+        for v, _ in graph[u]:
+            nodes.add(v)
+
+    dist = {node: float('inf') for node in nodes}
+    if source not in dist:
+        dist[source] = float('inf')
+
+    dist[source] = 0
+    unvisited = set(dist.keys())
+
+    while unvisited:
+        current = None
+        current_dist = float('inf')
+
+        for node in unvisited:
+            if dist[node] < current_dist:
+                current = node
+                current_dist = dist[node]
+
+        unvisited.remove(current)
+
+        for v, w in graph.get(current, []):
+            nd = w 
+            if nd < dist.get(v, float('inf')):
+                dist[v] = nd
+
+    return dist
 
 
 def precompute_distances(graph, spawn, relics, exit_node):
@@ -95,7 +133,11 @@ def precompute_distances(graph, spawn, relics, exit_node):
 
     TODO
     """
-    pass
+    sources = select_sources(spawn, relics, exit_node)
+    dist_table = {}
+    for s in sources:
+        dist_table[s] = run_dijkstra(graph, s)
+    return dist_table
 
 
 # =============================================================================
@@ -112,7 +154,14 @@ def dijkstra_invariant_check():
 
     TODO
     """
-    return "TODO"
+    return (
+        "- For nodes already finalized (in S): These nodes have had their shortest-path distances confirmed as correct. Once a node is finalized, its distance value will not change and represents the true minimum cost from the source.\n"
+        "- For nodes not yet finalized (not in S): These nodes have a tentative distance representing the best path found so far through only finalized nodes, but a better path might still be discovered.\n"
+        "- Initialization: At the start, only the source node has distance 0 (finalized), and all other nodes have distance infinity, satisfying the invariant.\n"
+        "- Maintenance: When we finalize the node u with minimum dist[u], it must be correct because all nonnegative edge weights mean any path to u through unfinalized nodes would cost at least dist[u]. Updating neighbors preserves the invariant.\n"
+        "- Termination: At the end, all reachable nodes are finalized with their true shortest distances, and unreachable nodes remain at infinity.\n"
+        "- Correctness matters: The route planner depends on these true distances to compute the actual cost of any relic visit sequence. Wrong distances lead to suboptimal or impossible routing decisions."
+    )
 
 
 # =============================================================================
@@ -129,7 +178,14 @@ def explain_search():
 
     TODO
     """
-    return "TODO"
+    return (
+        "- The failure mode: Greedy always picks the nearest unvisited relic from the current location, but nearest-first is locally optimal and ignores how each choice constrains future moves, leading to a globally suboptimal order.\n"
+        "- Counter-example setup: Consider a dungeon where relic R1 is close to spawn (cost 1), relic R2 is farther away (cost 5), but from R2 the exit is cheap (cost 1). From R1, reaching R2 is very expensive (cost 100).\n"
+        "- What greedy picks: Spawn → R1 (cost 1) → R2 (cost 100) → Exit (cost 1), total 102.\n"
+        "- What optimal picks: Spawn → R2 (cost 5) → R1 (cost 10) → Exit (cost 1), total 16.\n"
+        "- Why greedy loses: By greedily chasing the nearest relic first, it locks itself into an expensive position for collecting the second relic, wasting far more fuel than a plan that visits R2 first.\n"
+        "- What the algorithm must explore: All possible orders of visiting the relics, because the total cost depends entirely on which relic is visited first, second, third, and so on."
+    )
 
 
 # =============================================================================
@@ -156,7 +212,7 @@ def find_optimal_route(dist_table, spawn, relics, exit_node):
 
     TODO
     """
-    pass
+    return (float('inf'), [])
 
 
 def _explore(dist_table, current_loc, relics_remaining, relics_visited_order,
@@ -212,7 +268,7 @@ def solve(graph, spawn, relics, exit_node):
 
     TODO
     """
-    pass
+    return (float('inf'), [])
 
 
 # =============================================================================
